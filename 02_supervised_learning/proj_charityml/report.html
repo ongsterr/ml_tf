@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>finding_donors</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<section id="data-scientist-nanodegree" class="cell markdown">
+<h1>Data Scientist Nanodegree</h1>
+<h2 id="supervised-learning">Supervised Learning</h2>
+<h2 id="project-finding-donors-for-charityml">Project: Finding Donors for <em>CharityML</em></h2>
+</section>
+<div class="cell markdown">
+<p>Welcome to the first project of the Data Scientist Nanodegree! In this notebook, some template code has already been provided for you, and it will be your job to implement the additional functionality necessary to successfully complete this project. Sections that begin with <strong>'Implementation'</strong> in the header indicate that the following block of code will require additional functionality which you must provide. Instructions will be provided for each section and the specifics of the implementation are marked in the code block with a <code>'TODO'</code> statement. Please be sure to read the instructions carefully!</p>
+<p>In addition to implementing code, there will be questions that you must answer which relate to the project and your implementation. Each section where you will answer a question is preceded by a <strong>'Question X'</strong> header. Carefully read each question and provide thorough answers in the following text boxes that begin with <strong>'Answer:'</strong>. Your project submission will be evaluated based on your answers to each of the questions and the implementation you provide.</p>
+<blockquote>
+<p><strong>Note:</strong> Please specify WHICH VERSION OF PYTHON you are using when submitting this notebook. Code and Markdown cells can be executed using the <strong>Shift + Enter</strong> keyboard shortcut. In addition, Markdown cells can be edited by typically double-clicking the cell to enter edit mode.</p>
+</blockquote>
+</div>
+<section id="getting-started" class="cell markdown">
+<h2>Getting Started</h2>
+<p>In this project, you will employ several supervised algorithms of your choice to accurately model individuals' income using data collected from the 1994 U.S. Census. You will then choose the best candidate algorithm from preliminary results and further optimize this algorithm to best model the data. Your goal with this implementation is to construct a model that accurately predicts whether an individual makes more than $50,000. This sort of task can arise in a non-profit setting, where organizations survive on donations. Understanding an individual's income can help a non-profit better understand how large of a donation to request, or whether or not they should reach out to begin with. While it can be difficult to determine an individual's general income bracket directly from public sources, we can (as we will see) infer this value from other publically available features.</p>
+<p>The dataset for this project originates from the <a href="https://archive.ics.uci.edu/ml/datasets/Census+Income">UCI Machine Learning Repository</a>. The dataset was donated by Ron Kohavi and Barry Becker, after being published in the article <em>"Scaling Up the Accuracy of Naive-Bayes Classifiers: A Decision-Tree Hybrid"</em>. You can find the article by Ron Kohavi <a href="https://www.aaai.org/Papers/KDD/1996/KDD96-033.pdf">online</a>. The data we investigate here consists of small changes to the original dataset, such as removing the <code>'fnlwgt'</code> feature and records with missing or ill-formatted entries.</p>
+</section>
+<div class="cell markdown">
+<hr />
+<h2 id="exploring-the-data">Exploring the Data</h2>
+<p>Run the code cell below to load necessary Python libraries and load the census data. Note that the last column from this dataset, <code>'income'</code>, will be our target label (whether an individual makes more than, or at most, $50,000 annually). All other columns are features about each individual in the census database.</p>
+</div>
+<div class="cell code" data-execution_count="1">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries necessary for this project</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> time</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display <span class="co"># Allows the use of display() for DataFrames</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Import supplementary visualization code visuals.py</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> visuals <span class="im">as</span> vs</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pretty display for notebooks</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the Census dataset</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;census.csv&quot;</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Success - Display the first record</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>display(data.head(n<span class="op">=</span><span class="dv">1</span>))</span></code></pre></div>
+<div class="output display_data">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>workclass</th>
+      <th>education_level</th>
+      <th>education-num</th>
+      <th>marital-status</th>
+      <th>occupation</th>
+      <th>relationship</th>
+      <th>race</th>
+      <th>sex</th>
+      <th>capital-gain</th>
+      <th>capital-loss</th>
+      <th>hours-per-week</th>
+      <th>native-country</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>39</td>
+      <td>State-gov</td>
+      <td>Bachelors</td>
+      <td>13.0</td>
+      <td>Never-married</td>
+      <td>Adm-clerical</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>2174.0</td>
+      <td>0.0</td>
+      <td>40.0</td>
+      <td>United-States</td>
+      <td>&lt;=50K</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell code" data-execution_count="2">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>display(data.describe(include<span class="op">=</span><span class="st">&#39;all&#39;</span>))</span></code></pre></div>
+<div class="output display_data">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>workclass</th>
+      <th>education_level</th>
+      <th>education-num</th>
+      <th>marital-status</th>
+      <th>occupation</th>
+      <th>relationship</th>
+      <th>race</th>
+      <th>sex</th>
+      <th>capital-gain</th>
+      <th>capital-loss</th>
+      <th>hours-per-week</th>
+      <th>native-country</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>45222.000000</td>
+      <td>45222</td>
+      <td>45222</td>
+      <td>45222.000000</td>
+      <td>45222</td>
+      <td>45222</td>
+      <td>45222</td>
+      <td>45222</td>
+      <td>45222</td>
+      <td>45222.000000</td>
+      <td>45222.000000</td>
+      <td>45222.000000</td>
+      <td>45222</td>
+      <td>45222</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>NaN</td>
+      <td>7</td>
+      <td>16</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>14</td>
+      <td>6</td>
+      <td>5</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>41</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>NaN</td>
+      <td>Private</td>
+      <td>HS-grad</td>
+      <td>NaN</td>
+      <td>Married-civ-spouse</td>
+      <td>Craft-repair</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>United-States</td>
+      <td>&lt;=50K</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>NaN</td>
+      <td>33307</td>
+      <td>14783</td>
+      <td>NaN</td>
+      <td>21055</td>
+      <td>6020</td>
+      <td>18666</td>
+      <td>38903</td>
+      <td>30527</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>41292</td>
+      <td>34014</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>38.547941</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10.118460</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1101.430344</td>
+      <td>88.595418</td>
+      <td>40.938017</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>13.217870</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.552881</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7506.430084</td>
+      <td>404.956092</td>
+      <td>12.007508</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>17.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>28.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>40.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>37.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>40.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>47.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>13.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>45.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>90.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>16.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>99999.000000</td>
+      <td>4356.000000</td>
+      <td>99.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="implementation-data-exploration" class="cell markdown">
+<h3>Implementation: Data Exploration</h3>
+<p>A cursory investigation of the dataset will determine how many individuals fit into either group, and will tell us about the percentage of these individuals making more than $50,000. In the code cell below, you will need to compute the following:</p>
+<ul>
+<li>The total number of records, <code>'n_records'</code></li>
+<li>The number of individuals making more than $50,000 annually, <code>'n_greater_50k'</code>.</li>
+<li>The number of individuals making at most $50,000 annually, <code>'n_at_most_50k'</code>.</li>
+<li>The percentage of individuals making more than $50,000 annually, <code>'greater_percent'</code>.</li>
+</ul>
+<p>** HINT: ** You may need to look at the table above to understand how the <code>'income'</code> entries are formatted.</p>
+</section>
+<div class="cell code" data-execution_count="3" data-collapsed="true">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Total number of records</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_records <span class="op">=</span> <span class="bu">len</span>(data[<span class="st">&#39;income&#39;</span>])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Number of records where individual&#39;s income is more than $50,000</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n_greater_50k <span class="op">=</span> <span class="bu">len</span>(data[data[<span class="st">&#39;income&#39;</span>] <span class="op">==</span> <span class="st">&#39;&gt;50K&#39;</span>])</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Number of records where individual&#39;s income is at most $50,000</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>n_at_most_50k <span class="op">=</span> <span class="bu">len</span>(data[data[<span class="st">&#39;income&#39;</span>] <span class="op">==</span> <span class="st">&#39;&lt;=50K&#39;</span>])</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Percentage of individuals whose income is more than $50,000</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>greater_percent <span class="op">=</span> n_greater_50k <span class="op">/</span> n_records</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Total number of records: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(n_records))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Individuals making more than $50,000: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(n_greater_50k))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Individuals making at most $50,000: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(n_at_most_50k))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Percentage of individuals making more than $50,000: </span><span class="sc">{}</span><span class="st">%&quot;</span>.<span class="bu">format</span>(greater_percent<span class="op">*</span><span class="dv">100</span>))</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Total number of records: 45222
+Individuals making more than $50,000: 11208
+Individuals making at most $50,000: 34014
+Percentage of individuals making more than $50,000: 24.78439697492371%
+</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>** Featureset Exploration **</p>
+<ul>
+<li><strong>age</strong>: continuous.</li>
+<li><strong>workclass</strong>: Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked.</li>
+<li><strong>education</strong>: Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool.</li>
+<li><strong>education-num</strong>: continuous.</li>
+<li><strong>marital-status</strong>: Married-civ-spouse, Divorced, Never-married, Separated, Widowed, Married-spouse-absent, Married-AF-spouse.</li>
+<li><strong>occupation</strong>: Tech-support, Craft-repair, Other-service, Sales, Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspct, Adm-clerical, Farming-fishing, Transport-moving, Priv-house-serv, Protective-serv, Armed-Forces.</li>
+<li><strong>relationship</strong>: Wife, Own-child, Husband, Not-in-family, Other-relative, Unmarried.</li>
+<li><strong>race</strong>: Black, White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other.</li>
+<li><strong>sex</strong>: Female, Male.</li>
+<li><strong>capital-gain</strong>: continuous.</li>
+<li><strong>capital-loss</strong>: continuous.</li>
+<li><strong>hours-per-week</strong>: continuous.</li>
+<li><strong>native-country</strong>: United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&amp;Tobago, Peru, Hong, Holand-Netherlands.</li>
+</ul>
+</div>
+<div class="cell markdown">
+<hr />
+<h2 id="preparing-the-data">Preparing the Data</h2>
+<p>Before data can be used as input for machine learning algorithms, it often must be cleaned, formatted, and restructured — this is typically known as <strong>preprocessing</strong>. Fortunately, for this dataset, there are no invalid or missing entries we must deal with, however, there are some qualities about certain features that must be adjusted. This preprocessing can help tremendously with the outcome and predictive power of nearly all learning algorithms.</p>
+</div>
+<section id="transforming-skewed-continuous-features" class="cell markdown">
+<h3>Transforming Skewed Continuous Features</h3>
+<p>A dataset may sometimes contain at least one feature whose values tend to lie near a single number, but will also have a non-trivial number of vastly larger or smaller values than that single number. Algorithms can be sensitive to such distributions of values and can underperform if the range is not properly normalized. With the census dataset two features fit this description: '<code>capital-gain'</code> and <code>'capital-loss'</code>.</p>
+<p>Run the code cell below to plot a histogram of these two features. Note the range of the values present and how they are distributed.</p>
+</section>
+<div class="cell code" data-execution_count="4" data-collapsed="true">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into features and target label</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>income_raw <span class="op">=</span> data[<span class="st">&#39;income&#39;</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>features_raw <span class="op">=</span> data.drop(<span class="st">&#39;income&#39;</span>, axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize skewed continuous features of original data</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>vs.distribution(data)</span></code></pre></div>
+<div class="output display_data">
+<p><img src="926e2211ff94165d97c34648aa22ee922a8ce40f.png" /></p>
+</div>
+</div>
+<div class="cell markdown">
+<p>For highly-skewed feature distributions such as <code>'capital-gain'</code> and <code>'capital-loss'</code>, it is common practice to apply a <a href="https://en.wikipedia.org/wiki/Data_transformation_(statistics)">logarithmic transformation</a> on the data so that the very large and very small values do not negatively affect the performance of a learning algorithm. Using a logarithmic transformation significantly reduces the range of values caused by outliers. Care must be taken when applying this transformation however: The logarithm of <code>0</code> is undefined, so we must translate the values by a small amount above <code>0</code> to apply the the logarithm successfully.</p>
+<p>Run the code cell below to perform a transformation on the data and visualize the results. Again, note the range of values and how they are distributed.</p>
+</div>
+<div class="cell code" data-execution_count="5" data-collapsed="true">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-transform the skewed features</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>skewed <span class="op">=</span> [<span class="st">&#39;capital-gain&#39;</span>, <span class="st">&#39;capital-loss&#39;</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>features_log_transformed <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> features_raw)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>features_log_transformed[skewed] <span class="op">=</span> features_raw[skewed].<span class="bu">apply</span>(<span class="kw">lambda</span> x: np.log(x <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the new log distributions</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>vs.distribution(features_log_transformed, transformed <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
+<div class="output display_data">
+<p><img src="49738c75c6773c159db0bae8f18d3f2be1b88fbc.png" /></p>
+</div>
+</div>
+<section id="normalizing-numerical-features" class="cell markdown">
+<h3>Normalizing Numerical Features</h3>
+<p>In addition to performing transformations on features that are highly skewed, it is often good practice to perform some type of scaling on numerical features. Applying a scaling to the data does not change the shape of each feature's distribution (such as <code>'capital-gain'</code> or <code>'capital-loss'</code> above); however, normalization ensures that each feature is treated equally when applying supervised learners. Note that once scaling is applied, observing the data in its raw form will no longer have the same original meaning, as exampled below.</p>
+<p>Run the code cell below to normalize each numerical feature. We will use <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html"><code>sklearn.preprocessing.MinMaxScaler</code></a> for this.</p>
+</section>
+<div class="cell code" data-execution_count="6" data-collapsed="true">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import sklearn.preprocessing.StandardScaler</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a scaler, then apply it to the features</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> MinMaxScaler() <span class="co"># default=(0, 1)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>numerical <span class="op">=</span> [<span class="st">&#39;age&#39;</span>, <span class="st">&#39;education-num&#39;</span>, <span class="st">&#39;capital-gain&#39;</span>, <span class="st">&#39;capital-loss&#39;</span>, <span class="st">&#39;hours-per-week&#39;</span>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>features_log_minmax_transform <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> features_log_transformed)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>features_log_minmax_transform[numerical] <span class="op">=</span> scaler.fit_transform(features_log_transformed[numerical])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Show an example of a record with scaling applied</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>display(features_log_minmax_transform.head(n <span class="op">=</span> <span class="dv">5</span>))</span></code></pre></div>
+<div class="output display_data">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>workclass</th>
+      <th>education_level</th>
+      <th>education-num</th>
+      <th>marital-status</th>
+      <th>occupation</th>
+      <th>relationship</th>
+      <th>race</th>
+      <th>sex</th>
+      <th>capital-gain</th>
+      <th>capital-loss</th>
+      <th>hours-per-week</th>
+      <th>native-country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.301370</td>
+      <td>State-gov</td>
+      <td>Bachelors</td>
+      <td>0.800000</td>
+      <td>Never-married</td>
+      <td>Adm-clerical</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0.667492</td>
+      <td>0.0</td>
+      <td>0.397959</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.452055</td>
+      <td>Self-emp-not-inc</td>
+      <td>Bachelors</td>
+      <td>0.800000</td>
+      <td>Married-civ-spouse</td>
+      <td>Exec-managerial</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.122449</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.287671</td>
+      <td>Private</td>
+      <td>HS-grad</td>
+      <td>0.533333</td>
+      <td>Divorced</td>
+      <td>Handlers-cleaners</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.397959</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.493151</td>
+      <td>Private</td>
+      <td>11th</td>
+      <td>0.400000</td>
+      <td>Married-civ-spouse</td>
+      <td>Handlers-cleaners</td>
+      <td>Husband</td>
+      <td>Black</td>
+      <td>Male</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.397959</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.150685</td>
+      <td>Private</td>
+      <td>Bachelors</td>
+      <td>0.800000</td>
+      <td>Married-civ-spouse</td>
+      <td>Prof-specialty</td>
+      <td>Wife</td>
+      <td>Black</td>
+      <td>Female</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.397959</td>
+      <td>Cuba</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="implementation-data-preprocessing" class="cell markdown">
+<h3>Implementation: Data Preprocessing</h3>
+<p>From the table in <strong>Exploring the Data</strong> above, we can see there are several features for each record that are non-numeric. Typically, learning algorithms expect input to be numeric, which requires that non-numeric features (called <em>categorical variables</em>) be converted. One popular way to convert categorical variables is by using the <strong>one-hot encoding</strong> scheme. One-hot encoding creates a <em>"dummy"</em> variable for each possible category of each non-numeric feature. For example, assume <code>someFeature</code> has three possible entries: <code>A</code>, <code>B</code>, or <code>C</code>. We then encode this feature into <code>someFeature_A</code>, <code>someFeature_B</code> and <code>someFeature_C</code>.</p>
+<p>| | someFeature | | someFeature_A | someFeature_B | someFeature_C | | :-: | :-: | | :-: | :-: | :-: | | 0 | B | | 0 | 1 | 0 | | 1 | C | ----&gt; one-hot encode ----&gt; | 0 | 0 | 1 | | 2 | A | | 1 | 0 | 0 |</p>
+<p>Additionally, as with the non-numeric features, we need to convert the non-numeric target label, <code>'income'</code> to numerical values for the learning algorithm to work. Since there are only two possible categories for this label ("&lt;=50K" and "&gt;50K"), we can avoid using one-hot encoding and simply encode these two categories as <code>0</code> and <code>1</code>, respectively. In code cell below, you will need to implement the following:</p>
+<ul>
+<li>Use <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html?highlight=get_dummies#pandas.get_dummies"><code>pandas.get_dummies()</code></a> to perform one-hot encoding on the <code>'features_log_minmax_transform'</code> data.</li>
+<li>Convert the target label <code>'income_raw'</code> to numerical entries.
+<ul>
+<li>Set records with "&lt;=50K" to <code>0</code> and records with "&gt;50K" to <code>1</code>.</li>
+</ul></li>
+</ul>
+</section>
+<div class="cell code" data-execution_count="8" data-collapsed="true" data-scrolled="true">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: One-hot encode the &#39;features_log_minmax_transform&#39; data using pandas.get_dummies()</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>features_final <span class="op">=</span> pd.get_dummies(features_log_minmax_transform)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Encode the &#39;income_raw&#39; data to numerical values</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>income <span class="op">=</span> income_raw.replace(<span class="st">&#39;&gt;50K&#39;</span>, <span class="dv">1</span>).replace(<span class="st">&#39;&lt;=50K&#39;</span>, <span class="dv">0</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of features after one-hot encoding</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>encoded <span class="op">=</span> <span class="bu">list</span>(features_final.columns)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="sc">{}</span><span class="st"> total features after one-hot encoding.&quot;</span>.<span class="bu">format</span>(<span class="bu">len</span>(encoded)))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment the following line to see the encoded feature names</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># print(encoded)</span></span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>103 total features after one-hot encoding.
+</code></pre>
+</div>
+</div>
+<section id="shuffle-and-split-data" class="cell markdown">
+<h3>Shuffle and Split Data</h3>
+<p>Now all <em>categorical variables</em> have been converted into numerical features, and all numerical features have been normalized. As always, we will now split the data (both features and their labels) into training and test sets. 80% of the data will be used for training and 20% for testing.</p>
+<p>Run the code cell below to perform this split.</p>
+</section>
+<div class="cell code" data-execution_count="9" data-collapsed="true">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import train_test_split</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the &#39;features&#39; and &#39;income&#39; data into training and testing sets</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(features_final, </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                                    income, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                                                    test_size <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                                                    random_state <span class="op">=</span> <span class="dv">0</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the results of the split</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Training set has </span><span class="sc">{}</span><span class="st"> samples.&quot;</span>.<span class="bu">format</span>(X_train.shape[<span class="dv">0</span>]))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Testing set has </span><span class="sc">{}</span><span class="st"> samples.&quot;</span>.<span class="bu">format</span>(X_test.shape[<span class="dv">0</span>]))</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Training set has 36177 samples.
+Testing set has 9045 samples.
+</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<hr />
+<h2 id="evaluating-model-performance">Evaluating Model Performance</h2>
+<p>In this section, we will investigate four different algorithms, and determine which is best at modeling the data. Three of these algorithms will be supervised learners of your choice, and the fourth algorithm is known as a <em>naive predictor</em>.</p>
+</div>
+<section id="metrics-and-the-naive-predictor" class="cell markdown">
+<h3>Metrics and the Naive Predictor</h3>
+<p><em>CharityML</em>, equipped with their research, knows individuals that make more than $50,000 are most likely to donate to their charity. Because of this, <em>CharityML</em> is particularly interested in predicting who makes more than $50,000 accurately. It would seem that using <strong>accuracy</strong> as a metric for evaluating a particular model's performace would be appropriate. Additionally, identifying someone that <em>does not</em> make more than $50,000 as someone who does would be detrimental to <em>CharityML</em>, since they are looking to find individuals willing to donate. Therefore, a model's ability to precisely predict those that make more than $50,000 is <em>more important</em> than the model's ability to <strong>recall</strong> those individuals. We can use <strong>F-beta score</strong> as a metric that considers both precision and recall:</p>
+<p><span class="math display">$$ F_{\beta} = (1 + \beta^2) \cdot \frac{precision \cdot recall}{\left( \beta^2 \cdot precision \right) + recall} $$</span></p>
+<p>In particular, when <span class="math inline"><em>β</em> = 0.5</span>, more emphasis is placed on precision. This is called the <strong>F<span class="math inline"><sub>0.5</sub></span> score</strong> (or F-score for simplicity).</p>
+<p>Looking at the distribution of classes (those who make at most $50,000, and those who make more), it's clear most individuals do not make more than $50,000. This can greatly affect <strong>accuracy</strong>, since we could simply say <em>"this person does not make more than $50,000"</em> and generally be right, without ever looking at the data! Making such a statement would be called <strong>naive</strong>, since we have not considered any information to substantiate the claim. It is always important to consider the <em>naive prediction</em> for your data, to help establish a benchmark for whether a model is performing well. That been said, using that prediction would be pointless: If we predicted all people made less than $50,000, <em>CharityML</em> would identify no one as donors.</p>
+<h4 id="note-recap-of-accuracy-precision-recall">Note: Recap of accuracy, precision, recall</h4>
+<p>** Accuracy ** measures how often the classifier makes the correct prediction. It’s the ratio of the number of correct predictions to the total number of predictions (the number of test data points).</p>
+<p>** Precision ** tells us what proportion of messages we classified as spam, actually were spam. It is a ratio of true positives(words classified as spam, and which are actually spam) to all positives(all words classified as spam, irrespective of whether that was the correct classificatio), in other words it is the ratio of</p>
+<p><code>[True Positives/(True Positives + False Positives)]</code></p>
+<p>** Recall(sensitivity)** tells us what proportion of messages that actually were spam were classified by us as spam. It is a ratio of true positives(words classified as spam, and which are actually spam) to all the words that were actually spam, in other words it is the ratio of</p>
+<p><code>[True Positives/(True Positives + False Negatives)]</code></p>
+<p>For classification problems that are skewed in their classification distributions like in our case, for example if we had a 100 text messages and only 2 were spam and the rest 98 weren't, accuracy by itself is not a very good metric. We could classify 90 messages as not spam(including the 2 that were spam but we classify them as not spam, hence they would be false negatives) and 10 as spam(all 10 false positives) and still get a reasonably good accuracy score. For such cases, precision and recall come in very handy. These two metrics can be combined to get the F1 score, which is weighted average(harmonic mean) of the precision and recall scores. This score can range from 0 to 1, with 1 being the best possible F1 score(we take the harmonic mean as we are dealing with ratios).</p>
+</section>
+<section id="question-1---naive-predictor-performace" class="cell markdown">
+<h3>Question 1 - Naive Predictor Performace</h3>
+<ul>
+<li>If we chose a model that always predicted an individual made more than $50,000, what would that model's accuracy and F-score be on this dataset? You must use the code cell below and assign your results to <code>'accuracy'</code> and <code>'fscore'</code> to be used later.</li>
+</ul>
+<p>** Please note ** that the the purpose of generating a naive predictor is simply to show what a base model without any intelligence would look like. In the real world, ideally your base model would be either the results of a previous model or could be based on a research paper upon which you are looking to improve. When there is no benchmark model set, getting a result better than random choice is a place you could start from.</p>
+<p>** HINT: **</p>
+<ul>
+<li>When we have a model that always predicts '1' (i.e. the individual makes more than 50k) then our model will have no True Negatives(TN) or False Negatives(FN) as we are not making any negative('0' value) predictions. Therefore our Accuracy in this case becomes the same as our Precision(True Positives/(True Positives + False Positives)) as every prediction that we have made with value '1' that should have '0' becomes a False Positive; therefore our denominator in this case is the total number of records we have in total.</li>
+<li>Our Recall score(True Positives/(True Positives + False Negatives)) in this setting becomes 1 as we have no False Negatives.</li>
+</ul>
+</section>
+<div class="cell code" data-execution_count="10" data-collapsed="true">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;&#39;&#39;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">TP = np.sum(income) # Counting the ones as this is the naive case. Note that &#39;income&#39; is the &#39;income_raw&#39; data </span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">encoded to numerical values done in the data preprocessing step.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">FP = income.count() - TP # Specific to the naive case</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">TN = 0 # No predicted negatives in the naive case</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">FN = 0 # No predicted negatives in the naive case</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;&#39;&#39;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Calculate accuracy, precision and recall</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> np.<span class="bu">sum</span>(income) <span class="op">/</span> income.count()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>recall <span class="op">=</span> np.<span class="bu">sum</span>(income <span class="op">==</span> <span class="dv">1</span>) <span class="op">/</span> np.<span class="bu">sum</span>(income <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>precision <span class="op">=</span> np.<span class="bu">sum</span>(income <span class="op">==</span> <span class="dv">1</span>) <span class="op">/</span> income.count()</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Calculate F-score using the formula above for beta = 0.5 and correct values for precision and recall.</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>fscore <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (precision <span class="op">*</span> recall) <span class="op">/</span> (precision <span class="op">+</span> recall)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results </span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Naive Predictor: [Accuracy score: </span><span class="sc">{:.4f}</span><span class="st">, F-score: </span><span class="sc">{:.4f}</span><span class="st">]&quot;</span>.<span class="bu">format</span>(accuracy, fscore))</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Naive Predictor: [Accuracy score: 0.2478, F-score: 0.0993]
+</code></pre>
+</div>
+</div>
+<section id="supervised-learning-models" class="cell markdown">
+<h3>Supervised Learning Models</h3>
+<p><strong>The following are some of the supervised learning models that are currently available in</strong> <a href="http://scikit-learn.org/stable/supervised_learning.html"><code>scikit-learn</code></a> <strong>that you may choose from:</strong></p>
+<ul>
+<li>Gaussian Naive Bayes (GaussianNB)</li>
+<li>Decision Trees</li>
+<li>Ensemble Methods (Bagging, AdaBoost, Random Forest, Gradient Boosting)</li>
+<li>K-Nearest Neighbors (KNeighbors)</li>
+<li>Stochastic Gradient Descent Classifier (SGDC)</li>
+<li>Support Vector Machines (SVM)</li>
+<li>Logistic Regression</li>
+</ul>
+</section>
+<section id="question-2---model-application" class="cell markdown">
+<h3>Question 2 - Model Application</h3>
+<p>List three of the supervised learning models above that are appropriate for this problem that you will test on the census data. For each model chosen</p>
+<ul>
+<li>Describe one real-world application in industry where the model can be applied.</li>
+<li>What are the strengths of the model; when does it perform well?</li>
+<li>What are the weaknesses of the model; when does it perform poorly?</li>
+<li>What makes this model a good candidate for the problem, given what you know about the data?</li>
+</ul>
+<p>** HINT: **</p>
+<p>Structure your answer in the same format as above^, with 4 parts for each of the three models you pick. Please include references with your answer.</p>
+</section>
+<div class="cell markdown">
+<p><strong>Answer: </strong></p>
+<ol>
+<li><p>Decision Trees</p>
+<p>Describe one real-world application in industry where the model can be applied.<br />
+Recommendation system where certain attributes of users can be used as features to help decide types of product to recommend to users.</p>
+<p>What are the strengths of the model; when does it perform well?<br />
+The model is able to solve both classification and regression problems. The Decision Tree model is very intuitive and can easily be explained to stakeholders. It results in a set of rules. There are not many hyper-parameters to tune.</p>
+<p>What are the weaknesses of the model; when does it perform poorly?<br />
+There is a high risk of overfitting. Information gain in a decision tree with categorical variables gives a biased response for attributes with greater number of categories.</p>
+<p>What makes this model a good candidate for the problem, given what you know about the data?<br />
+This model might not be the best for this dataset in terms of its performance, but it will still be able to do the work. The problem is a classification problem and decision tree will be able to do it.</p></li>
+<li><p>Ensemble Methods (Bagging, AdaBoost, Random Forest, Gradient Boosting)</p>
+<p>Describe one real-world application in industry where the model can be applied.<br />
+Similar to the Decision Tree model, the ensemble method can be used in recommendation system and filtering system such as identifying spam/non-spam emails.</p>
+<p>What are the strengths of the model; when does it perform well?<br />
+Depending on the models used, it can either help reduce variance or bias or both and generally provide a relatively high accuracy. It performs well when there is sufficient data in the dataset and the dataset have features that are well represented.</p>
+<p>What are the weaknesses of the model; when does it perform poorly?<br />
+It performs badly with smaller dataset</p>
+<p>What makes this model a good candidate for the problem, given what you know about the data?<br />
+This method is suitable for the problem firstly because it works with a classification problem. Secondly, our dataset is reasonably large which works well with ensemble methods.s</p></li>
+<li><p>Support Vector Machines (SVM)</p>
+<p>Describe one real-world application in industry where the model can be applied.<br />
+SVM model is used in image classification and handwriting recognition.</p>
+<p>What are the strengths of the model; when does it perform well? SVM works relatively well when there is a clear margin of separation between classes and is more effective in high dimensional spaces.</p>
+<p>What are the weaknesses of the model; when does it perform poorly?<br />
+SVM algorithms is not suitable for large datasets and it is computational expensive to run. SVM does not perform well when the data set has more noise. It also underperform when the number of features for each data point exceeds the number of training data examples.</p>
+<p>What makes this model a good candidate for the problem, given what you know about the data?<br />
+There are about 13 features in the dataset and might require higher dimension for better classification. The dataset is relatively small and would be possible with SVM.</p></li>
+</ol>
+</div>
+<section id="implementation---creating-a-training-and-predicting-pipeline" class="cell markdown">
+<h3>Implementation - Creating a Training and Predicting Pipeline</h3>
+<p>To properly evaluate the performance of each model you've chosen, it's important that you create a training and predicting pipeline that allows you to quickly and effectively train models using various sizes of training data and perform predictions on the testing data. Your implementation here will be used in the following section. In the code block below, you will need to implement the following:</p>
+<ul>
+<li>Import <code>fbeta_score</code> and <code>accuracy_score</code> from <a href="http://scikit-learn.org/stable/modules/classes.html#sklearn-metrics-metrics"><code>sklearn.metrics</code></a>.</li>
+<li>Fit the learner to the sampled training data and record the training time.</li>
+<li>Perform predictions on the test data <code>X_test</code>, and also on the first 300 training points <code>X_train[:300]</code>.
+<ul>
+<li>Record the total prediction time.</li>
+</ul></li>
+<li>Calculate the accuracy score for both the training subset and testing set.</li>
+<li>Calculate the F-score for both the training subset and testing set.
+<ul>
+<li>Make sure that you set the <code>beta</code> parameter!</li>
+</ul></li>
+</ul>
+</section>
+<div class="cell code" data-execution_count="11" data-collapsed="true">
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Import two metrics from sklearn - fbeta_score and accuracy_score</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> f1_score, accuracy_score</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_predict(learner, sample_size, X_train, y_train, X_test, y_test): </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">&#39;&#39;&#39;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">    inputs:</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">       - learner: the learning algorithm to be trained and predicted on</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">       - sample_size: the size of samples (number) to be drawn from training set</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">       - X_train: features training set</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">       - y_train: income training set</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">       - X_test: features testing set</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">       - y_test: income testing set</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">    &#39;&#39;&#39;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> {}</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Fit the learner to the training data using slicing with &#39;sample_size&#39; using .fit(training_features[:], training_labels[:])</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time() <span class="co"># Get start time</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    learner.fit(X_train, y_train)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> time() <span class="co"># Get end time</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Calculate the training time</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    results[<span class="st">&#39;train_time&#39;</span>] <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Get the predictions on the test set(X_test),</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       then get predictions on the first 300 training samples(X_train) using .predict()</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time() <span class="co"># Get start time</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    predictions_test <span class="op">=</span> learner.predict(X_test)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    predictions_train <span class="op">=</span> learner.predict(X_train)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> time() <span class="co"># Get end time</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Calculate the total prediction time</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    results[<span class="st">&#39;pred_time&#39;</span>] <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute accuracy on the first 300 training samples which is y_train[:300]</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    results[<span class="st">&#39;acc_train&#39;</span>] <span class="op">=</span> accuracy_score(y_train, predictions_train)</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute accuracy on test set using accuracy_score()</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    results[<span class="st">&#39;acc_test&#39;</span>] <span class="op">=</span> accuracy_score(y_test, predictions_test)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute F-score on the the first 300 training samples using fbeta_score()</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    results[<span class="st">&#39;f_train&#39;</span>] <span class="op">=</span> f1_score(y_train, predictions_train)</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute F-score on the test set which is y_test</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    results[<span class="st">&#39;f_test&#39;</span>] <span class="op">=</span> f1_score(y_test, predictions_test)</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Success</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;</span><span class="sc">{}</span><span class="st"> trained on </span><span class="sc">{}</span><span class="st"> samples.&quot;</span>.<span class="bu">format</span>(learner.__class__.<span class="va">__name__</span>, sample_size))</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the results</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span></code></pre></div>
+</div>
+<section id="implementation-initial-model-evaluation" class="cell markdown">
+<h3>Implementation: Initial Model Evaluation</h3>
+<p>In the code cell, you will need to implement the following:</p>
+<ul>
+<li>Import the three supervised learning models you've discussed in the previous section.</li>
+<li>Initialize the three models and store them in <code>'clf_A'</code>, <code>'clf_B'</code>, and <code>'clf_C'</code>.
+<ul>
+<li>Use a <code>'random_state'</code> for each model you use, if provided.</li>
+<li><strong>Note:</strong> Use the default settings for each model — you will tune one specific model in a later section.</li>
+</ul></li>
+<li>Calculate the number of records equal to 1%, 10%, and 100% of the training data.
+<ul>
+<li>Store those values in <code>'samples_1'</code>, <code>'samples_10'</code>, and <code>'samples_100'</code> respectively.</li>
+</ul></li>
+</ul>
+<p><strong>Note:</strong> Depending on which algorithms you chose, the following implementation may take some time to run!</p>
+</section>
+<div class="cell code" data-execution_count="12" data-collapsed="true">
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Import the three supervised learning models from sklearn</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVC</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Initialize the three models</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>clf_A <span class="op">=</span> DecisionTreeClassifier()</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>clf_B <span class="op">=</span> RandomForestClassifier()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>clf_C <span class="op">=</span> SVC()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Calculate the number of samples for 1%, 10%, and 100% of the training data</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># HINT: samples_100 is the entire training set i.e. len(y_train)</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># HINT: samples_10 is 10% of samples_100 (ensure to set the count of the values to be `int` and not `float`)</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># HINT: samples_1 is 1% of samples_100 (ensure to set the count of the values to be `int` and not `float`)</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>samples_100 <span class="op">=</span> <span class="bu">len</span>(y_train)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>samples_10 <span class="op">=</span> <span class="bu">int</span>(samples_100 <span class="op">*</span> <span class="fl">0.1</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>samples_1 <span class="op">=</span> <span class="bu">int</span>(samples_100 <span class="op">*</span> <span class="fl">0.01</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect results on the learners</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> clf <span class="kw">in</span> [clf_A, clf_B, clf_C]:</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    clf_name <span class="op">=</span> clf.__class__.<span class="va">__name__</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    results[clf_name] <span class="op">=</span> {}</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, samples <span class="kw">in</span> <span class="bu">enumerate</span>([samples_1, samples_10, samples_100]):</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        results[clf_name][i] <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        train_predict(clf, samples, X_train, y_train, X_test, y_test)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Run metrics visualization for the three supervised learning models chosen</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>vs.evaluate(results, accuracy, fscore)</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>DecisionTreeClassifier trained on 361 samples.
+DecisionTreeClassifier trained on 3617 samples.
+DecisionTreeClassifier trained on 36177 samples.
+RandomForestClassifier trained on 361 samples.
+RandomForestClassifier trained on 3617 samples.
+RandomForestClassifier trained on 36177 samples.
+SVC trained on 361 samples.
+SVC trained on 3617 samples.
+SVC trained on 36177 samples.
+</code></pre>
+</div>
+<div class="output display_data">
+<p><img src="daad7d98e2a1245321572d0a43f84a7b6960dfbb.png" /></p>
+</div>
+</div>
+<div class="cell markdown">
+<hr />
+<h2 id="improving-results">Improving Results</h2>
+<p>In this final section, you will choose from the three supervised learning models the <em>best</em> model to use on the student data. You will then perform a grid search optimization for the model over the entire training set (<code>X_train</code> and <code>y_train</code>) by tuning at least one parameter to improve upon the untuned model's F-score.</p>
+</div>
+<section id="question-3---choosing-the-best-model" class="cell markdown">
+<h3>Question 3 - Choosing the Best Model</h3>
+<ul>
+<li>Based on the evaluation you performed earlier, in one to two paragraphs, explain to <em>CharityML</em> which of the three models you believe to be most appropriate for the task of identifying individuals that make more than $50,000.</li>
+</ul>
+<p>** HINT: ** Look at the graph at the bottom left from the cell above(the visualization created by <code>vs.evaluate(results, accuracy, fscore)</code>) and check the F score for the testing set when 100% of the training set is used. Which model has the highest score? Your answer should include discussion of the:</p>
+<ul>
+<li>metrics - F score on the testing when 100% of the training data is used,</li>
+<li>prediction/training time</li>
+<li>the algorithm's suitability for the data.</li>
+</ul>
+</section>
+<div class="cell markdown">
+<p><strong>Answer: </strong></p>
+<p>The F score for the testing subset of the Random Forest Classifier was around 0.7 which was the highest among the 3 models. The prediction / training time was slightly longer than the Decision Tree Classifier. The use of the Random Forest algorithm works really well with classification problem with discreet features and also prevent the over-fitting issues we might faced when using the Decision Tree algorithm.</p>
+</div>
+<section id="question-4---describing-the-model-in-laymans-terms" class="cell markdown">
+<h3>Question 4 - Describing the Model in Layman's Terms</h3>
+<ul>
+<li>In one to two paragraphs, explain to <em>CharityML</em>, in layman's terms, how the final model chosen is supposed to work. Be sure that you are describing the major qualities of the model, such as how the model is trained and how the model makes a prediction. Avoid using advanced mathematical jargon, such as describing equations.</li>
+</ul>
+<p>** HINT: **</p>
+<p>When explaining your model, if using external resources please include all citations.</p>
+</section>
+<div class="cell markdown">
+<p><strong>Answer: </strong></p>
+<p>The Random Forest model was chosen for the project. The Random Forest model is actually an extension of the Decision Tree model, but tweaked slightly to prevent overfitting and hence the performance of classification. In a normal Decision Tree model, it will look through each feature to build a set of rules that separate the target label/outcome. With the Random Forest model, instead of using all the features in the feature set, it will randomly split the feature set into multiple smaller subgroups and run the Decision Tree algorithm on each of the smaller subgroup instead. The outcome of each subgroup will provide a probability of the value of target label i.e. using the classic example of classifying spam/non-spam emails, if there are 5 subgroups in total and 3 subgroups predicted an email to be spam, the model might will then have a final outcome of classifying the email as spam.</p>
+</div>
+<section id="implementation-model-tuning" class="cell markdown">
+<h3>Implementation: Model Tuning</h3>
+<p>Fine tune the chosen model. Use grid search (<code>GridSearchCV</code>) with at least one important parameter tuned with at least 3 different values. You will need to use the entire training set for this. In the code cell below, you will need to implement the following:</p>
+<ul>
+<li>Import <a href="http://scikit-learn.org/0.17/modules/generated/sklearn.grid_search.GridSearchCV.html"><code>sklearn.grid_search.GridSearchCV</code></a> and <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html"><code>sklearn.metrics.make_scorer</code></a>.</li>
+<li>Initialize the classifier you've chosen and store it in <code>clf</code>.</li>
+<li>Set a <code>random_state</code> if one is available to the same state you set before.</li>
+<li>Create a dictionary of parameters you wish to tune for the chosen model.</li>
+<li>Example: <code>parameters = {'parameter' : [list of values]}</code>.</li>
+<li><strong>Note:</strong> Avoid tuning the <code>max_features</code> parameter of your learner if that parameter is available!</li>
+<li>Use <code>make_scorer</code> to create an <code>fbeta_score</code> scoring object (with <span class="math inline"><em>β</em> = 0.5</span>).</li>
+<li>Perform grid search on the classifier <code>clf</code> using the <code>'scorer'</code>, and store it in <code>grid_obj</code>.</li>
+<li>Fit the grid search object to the training data (<code>X_train</code>, <code>y_train</code>), and store it in <code>grid_fit</code>.</li>
+</ul>
+<p><strong>Note:</strong> Depending on the algorithm chosen and the parameter list, the following implementation may take some time to run!</p>
+</section>
+<div class="cell code" data-execution_count="13" data-collapsed="true">
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Import &#39;GridSearchCV&#39;, &#39;make_scorer&#39;, and any other necessary libraries</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> make_scorer, fbeta_score</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Initialize the classifier</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> RandomForestClassifier()</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Create the parameters list you wish to tune, using a dictionary if needed.</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># HINT: parameters = {&#39;parameter_1&#39;: [value1, value2], &#39;parameter_2&#39;: [value1, value2]}</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>parameters <span class="op">=</span> {<span class="st">&#39;max_depth&#39;</span>: np.arange(<span class="dv">1</span>, <span class="dv">11</span>, <span class="dv">2</span>), <span class="st">&#39;min_samples_leaf&#39;</span>: np.arange(<span class="dv">1</span>, <span class="dv">21</span>, <span class="dv">4</span>), <span class="st">&#39;min_samples_split&#39;</span>: np.arange(<span class="dv">1</span>, <span class="dv">21</span>, <span class="dv">4</span>)}</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Make an fbeta_score scoring object using make_scorer()</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>scorer <span class="op">=</span> make_scorer(fbeta_score, beta<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Perform grid search on the classifier using &#39;scorer&#39; as the scoring method using GridSearchCV()</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>grid_obj <span class="op">=</span> GridSearchCV(clf, parameters, scoring<span class="op">=</span>scorer)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Fit the grid search object to the training data and find the optimal parameters using fit()</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>grid_fit <span class="op">=</span> grid_obj.fit(X_train, y_train)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the estimator</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>best_clf <span class="op">=</span> grid_fit.best_estimator_</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions using the unoptimized and model</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> (clf.fit(X_train, y_train)).predict(X_test)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>best_predictions <span class="op">=</span> best_clf.predict(X_test)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Report the before-and-afterscores</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Unoptimized model</span><span class="ch">\n</span><span class="st">------&quot;</span>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Accuracy score on testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(accuracy_score(y_test, predictions)))</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;F-score on testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(fbeta_score(y_test, predictions, beta <span class="op">=</span> <span class="fl">0.5</span>)))</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Optimized Model</span><span class="ch">\n</span><span class="st">------&quot;</span>)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Final accuracy score on the testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(accuracy_score(y_test, best_predictions)))</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Final F-score on the testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(fbeta_score(y_test, best_predictions, beta <span class="op">=</span> <span class="fl">0.5</span>)))</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Unoptimized model
+------
+Accuracy score on testing data: 0.8421
+F-score on testing data: 0.6807
+
+Optimized Model
+------
+Final accuracy score on the testing data: 0.8530
+Final F-score on the testing data: 0.7222
+</code></pre>
+</div>
+</div>
+<section id="question-5---final-model-evaluation" class="cell markdown">
+<h3>Question 5 - Final Model Evaluation</h3>
+<ul>
+<li>What is your optimized model's accuracy and F-score on the testing data?</li>
+<li>Are these scores better or worse than the unoptimized model?</li>
+<li>How do the results from your optimized model compare to the naive predictor benchmarks you found earlier in <strong>Question 1</strong>?</li>
+</ul>
+<p><strong>Note:</strong> Fill in the table below with your results, and then provide discussion in the <strong>Answer</strong> box.</p>
+</section>
+<section id="results" class="cell markdown">
+<h4>Results:</h4>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Metric</th>
+<th style="text-align: center;">Unoptimized Model</th>
+<th style="text-align: center;">Optimized Model</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Accuracy Score</td>
+<td style="text-align: center;">0.8410</td>
+<td style="text-align: center;">0.8521</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F-score</td>
+<td style="text-align: center;">0.6782</td>
+<td style="text-align: center;">0.7209</td>
+</tr>
+</tbody>
+</table>
+</section>
+<div class="cell markdown">
+<p><strong>Answer: </strong></p>
+<p>The optimized model has slightly better accuracy but significantly higher f-score. The results from the optimized model is much better that the naive predictor benchmarks in question 1.</p>
+</div>
+<div class="cell markdown">
+<hr />
+<h2 id="feature-importance">Feature Importance</h2>
+<p>An important task when performing supervised learning on a dataset like the census data we study here is determining which features provide the most predictive power. By focusing on the relationship between only a few crucial features and the target label we simplify our understanding of the phenomenon, which is most always a useful thing to do. In the case of this project, that means we wish to identify a small number of features that most strongly predict whether an individual makes at most or more than $50,000.</p>
+<p>Choose a scikit-learn classifier (e.g., adaboost, random forests) that has a <code>feature_importance_</code> attribute, which is a function that ranks the importance of features according to the chosen classifier. In the next python cell fit this classifier to training set and use this attribute to determine the top 5 most important features for the census dataset.</p>
+</div>
+<section id="question-6---feature-relevance-observation" class="cell markdown">
+<h3>Question 6 - Feature Relevance Observation</h3>
+<p>When <strong>Exploring the Data</strong>, it was shown there are thirteen available features for each individual on record in the census data. Of these thirteen records, which five features do you believe to be most important for prediction, and in what order would you rank them and why?</p>
+</section>
+<div class="cell markdown">
+<p><strong>Answer:</strong></p>
+<ol>
+<li>age</li>
+<li>occupation</li>
+<li>education_level</li>
+<li>workclass</li>
+<li>hours-per-week</li>
+</ol>
+</div>
+<section id="implementation---extracting-feature-importance" class="cell markdown">
+<h3>Implementation - Extracting Feature Importance</h3>
+<p>Choose a <code>scikit-learn</code> supervised learning algorithm that has a <code>feature_importance_</code> attribute availble for it. This attribute is a function that ranks the importance of each feature when making predictions based on the chosen algorithm.</p>
+<p>In the code cell below, you will need to implement the following:</p>
+<ul>
+<li>Import a supervised learning model from sklearn if it is different from the three used earlier.</li>
+<li>Train the supervised model on the entire training set.</li>
+<li>Extract the feature importances using <code>'.feature_importances_'</code>.</li>
+</ul>
+</section>
+<div class="cell code" data-execution_count="14" data-collapsed="true">
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Import a supervised learning model that has &#39;feature_importances_&#39;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Train the supervised model on the training set using .fit(X_train, y_train)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> RandomForestClassifier()</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Extract the feature importances using .feature_importances_ </span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>importances <span class="op">=</span> model.feature_importances_</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>vs.feature_plot(importances, X_train, y_train)</span></code></pre></div>
+<div class="output display_data">
+<p><img src="2a9704d4aa7bbac9cf30f63a4191d91a782e85b9.png" /></p>
+</div>
+</div>
+<section id="question-7---extracting-feature-importance" class="cell markdown">
+<h3>Question 7 - Extracting Feature Importance</h3>
+<p>Observe the visualization created above which displays the five most relevant features for predicting if an individual makes at most or above $50,000.</p>
+<ul>
+<li>How do these five features compare to the five features you discussed in <strong>Question 6</strong>?</li>
+<li>If you were close to the same answer, how does this visualization confirm your thoughts?</li>
+<li>If you were not close, why do you think these features are more relevant?</li>
+</ul>
+</section>
+<div class="cell markdown">
+<p><strong>Answer:</strong></p>
+<p>There were quite a few un-expected ones i.e. capital-gain and marital status. I expected education level to be more relevant than education number as one can complete higher number of educational years and yet remain at lower education level, but it doesn't seem to be the case. Age seems to have the highest weight among all the features while the remaining top 4 are not far apart from each other. The top 5 features have a cumulative weight of less than 0.6 which suggests that aside from age, all other features have a relatively similar weights.</p>
+</div>
+<section id="feature-selection" class="cell markdown">
+<h3>Feature Selection</h3>
+<p>How does a model perform if we only use a subset of all the available features in the data? With less features required to train, the expectation is that training and prediction time is much lower — at the cost of performance metrics. From the visualization above, we see that the top five most important features contribute more than half of the importance of <strong>all</strong> features present in the data. This hints that we can attempt to <em>reduce the feature space</em> and simplify the information required for the model to learn. The code cell below will use the same optimized model you found earlier, and train it on the same training set <em>with only the top five important features</em>.</p>
+</section>
+<div class="cell code" data-execution_count="15" data-collapsed="true">
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import functionality for cloning a model</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> clone</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduce the feature space</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>X_train_reduced <span class="op">=</span> X_train[X_train.columns.values[(np.argsort(importances)[::<span class="op">-</span><span class="dv">1</span>])[:<span class="dv">5</span>]]]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>X_test_reduced <span class="op">=</span> X_test[X_test.columns.values[(np.argsort(importances)[::<span class="op">-</span><span class="dv">1</span>])[:<span class="dv">5</span>]]]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Train on the &quot;best&quot; model found from grid search earlier</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> (clone(best_clf)).fit(X_train_reduced, y_train)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Make new predictions</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>reduced_predictions <span class="op">=</span> clf.predict(X_test_reduced)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Report scores from the final model using both versions of data</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Final Model trained on full data</span><span class="ch">\n</span><span class="st">------&quot;</span>)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Accuracy on testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(accuracy_score(y_test, best_predictions)))</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;F-score on testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(fbeta_score(y_test, best_predictions, beta <span class="op">=</span> <span class="fl">0.5</span>)))</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Final Model trained on reduced data</span><span class="ch">\n</span><span class="st">------&quot;</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Accuracy on testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(accuracy_score(y_test, reduced_predictions)))</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;F-score on testing data: </span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(fbeta_score(y_test, reduced_predictions, beta <span class="op">=</span> <span class="fl">0.5</span>)))</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Final Model trained on full data
+------
+Accuracy on testing data: 0.8530
+F-score on testing data: 0.7222
+
+Final Model trained on reduced data
+------
+Accuracy on testing data: 0.8470
+F-score on testing data: 0.7044
+</code></pre>
+</div>
+</div>
+<section id="question-8---effects-of-feature-selection" class="cell markdown">
+<h3>Question 8 - Effects of Feature Selection</h3>
+<ul>
+<li>How does the final model's F-score and accuracy score on the reduced data using only five features compare to those same scores when all features are used?</li>
+<li>If training time was a factor, would you consider using the reduced data as your training set?</li>
+</ul>
+</section>
+<div class="cell markdown">
+<p><strong>Answer:</strong></p>
+<p>The model using reduced data has slightly lower accuracy and f-score which was expected, but the training time was significantly faster. If training time is an important factor, using reduced data could be a potential solution at the expense of accuracy and f-score.</p>
+</div>
+<div class="cell markdown">
+<blockquote>
+<p><strong>Note</strong>: Once you have completed all of the code implementations and successfully answered each question above, you may finalize your work by exporting the iPython Notebook as an HTML document. You can do this by using the menu above and navigating to<br />
+<strong>File -&gt; Download as -&gt; HTML (.html)</strong>. Include the finished document along with this notebook as your submission.</p>
+</blockquote>
+</div>
+</body>
+</html>
