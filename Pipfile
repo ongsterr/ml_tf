@@ -9,6 +9,7 @@ pandas = "*"
 matplotlib = "*"
 tensorflow-datasets = "*"
 tensorflow = "*"
+ipykernel = "*"
 
 [dev-packages]
 jupyter = "*"
