@@ -8,8 +8,8 @@ numpy = "*"
 pandas = "*"
 matplotlib = "*"
 tensorflow-datasets = "*"
-tensorflow = "*"
 ipykernel = "*"
+tensorflow-gpu = "*"
 
 [dev-packages]
 jupyter = "*"
