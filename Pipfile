@@ -10,6 +10,7 @@ matplotlib = "*"
 tensorflow-datasets = "*"
 ipykernel = "*"
 tensorflow-gpu = "*"
+seaborn = "*"
 
 [dev-packages]
 jupyter = "*"
