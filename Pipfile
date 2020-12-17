@@ -11,10 +11,13 @@ tensorflow-datasets = "*"
 ipykernel = "*"
 tensorflow-gpu = "*"
 seaborn = "*"
+sklearn = "*"
 
 [dev-packages]
 jupyter = "*"
 notebook = "*"
+autopep8 = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.8"
