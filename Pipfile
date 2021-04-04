@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+pandas = "*"
+matplotlib = "*"
+tensorflow-datasets = "*"
+ipykernel = "*"
+tensorflow-gpu = "*"
+seaborn = "*"
+sklearn = "*"
+
+[dev-packages]
+jupyter = "*"
+notebook = "*"
+autopep8 = "*"
+pylint = "*"
+
+[requires]
+python_version = "3.8"
